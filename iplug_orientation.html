@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPLUG // Orientation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-void:#0a0f0d;
+    --bg-panel:#0f1712;
+    --bg-panel-hi:#131e18;
+    --green:#4ade80;
+    --green-dim:#245038;
+    --green-line:#1c3829;
+    --cyan:#22d3ee;
+    --text-hi:#eaf3ee;
+    --text-mid:#9db3a8;
+    --text-low:#5a7268;
+    --danger:#f97373;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html,body{
+    height:100%;
+    background:var(--bg-void);
+    color:var(--text-hi);
+    font-family:'Inter',sans-serif;
+    overflow:hidden;
+  }
+
+  ::selection{background:var(--green-dim);color:var(--green);}
+
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  /* ---------- background circuit texture ---------- */
+  .circuit-bg{
+    position:fixed;inset:0;
+    pointer-events:none;
+    z-index:0;
+    opacity:0.5;
+  }
+  .circuit-bg svg{width:100%;height:100%;}
+  .circuit-bg .trace{
+    fill:none;
+    stroke:var(--green-line);
+    stroke-width:1;
+  }
+  .circuit-bg .node{
+    fill:var(--green-line);
+  }
+  .glow{
+    position:fixed;
+    width:60vw;height:60vw;
+    background:radial-gradient(circle, rgba(74,222,128,0.06) 0%, rgba(74,222,128,0) 70%);
+    top:-10vw;right:-10vw;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ---------- deck shell ---------- */
+  .deck{
+    position:relative;
+    height:100vh;
+    width:100vw;
+    z-index:1;
+  }
+
+  .slide{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:6vh 8vw;
+    opacity:0;
+    transform:translateY(14px);
+    pointer-events:none;
+    transition:opacity .45s ease, transform .45s ease;
+  }
+  .slide.active{
+    opacity:1;
+    transform:translateY(0);
+    pointer-events:auto;
+  }
+
+  .eyebrow{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--green);
+    font-size:13px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    margin-bottom:18px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:7px;height:7px;
+    background:var(--green);
+    box-shadow:0 0 8px var(--green);
+    display:inline-block;
+  }
+
+  h1{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:800;
+    font-size:clamp(2.2rem, 5.5vw, 4.4rem);
+    line-height:1.05;
+    letter-spacing:-.01em;
+    color:var(--text-hi);
+  }
+  h1 .accent{color:var(--green);}
+  h2{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:clamp(1.6rem, 3.4vw, 2.6rem);
+    color:var(--text-hi);
+    margin-bottom:.3em;
+  }
+  .sub{
+    color:var(--text-mid);
+    font-size:clamp(1rem,1.4vw,1.2rem);
+    max-width:60ch;
+    line-height:1.55;
+    margin-top:14px;
+  }
+
+  .cursor{
+    display:inline-block;
+    width:.5em;
+    background:var(--green);
+    animation:blink 1.1s steps(2) infinite;
+    margin-left:.08em;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ---------- title slide ---------- */
+  .title-slide{
+    justify-content:center;
+    align-items:flex-start;
+  }
+  .logo-slot{
+    width:120px;height:120px;
+    border:1px dashed var(--green-dim);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--text-low);
+    font-size:11px;
+    text-align:center;
+    margin-bottom:34px;
+    letter-spacing:.05em;
+  }
+  .moto{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--text-mid);
+    max-width:52ch;
+    line-height:1.6;
+    font-size:1.05rem;
+    margin-top:22px;
+    border-left:2px solid var(--green-dim);
+    padding-left:18px;
+  }
+  .moto b{color:var(--green);font-weight:600;}
+
+  /* ---------- cores row ---------- */
+  .cores{
+    display:flex;
+    gap:28px;
+    margin-top:40px;
+    flex-wrap:wrap;
+  }
+  .core-card{
+    background:var(--bg-panel);
+    border:1px solid var(--green-line);
+    padding:20px 22px;
+    max-width:340px;
+  }
+  .core-card .tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--cyan);
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  .core-card p{color:var(--text-mid);font-size:.92rem;line-height:1.5;}
+
+  /* ---------- people grid (coordinators) ---------- */
+  .people-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+    gap:20px;
+    max-width:920px;
+    margin-top:36px;
+  }
+  .person-card{
+    border:1px dashed var(--green-dim);
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:12px;
+    text-align:center;
+    background:var(--bg-panel);
+  }
+  .avatar-slot{
+    width:64px;height:64px;
+    border-radius:50%;
+    border:1px dashed var(--text-low);
+    display:flex;align-items:center;justify-content:center;
+    font-size:9px;color:var(--text-low);
+  }
+  .person-card .name{font-family:'JetBrains Mono',monospace;color:var(--text-mid);font-size:.85rem;}
+  .person-card .role{color:var(--text-low);font-size:.75rem;}
+
+  /* ---------- empty state (last year events) ---------- */
+  .empty-state{
+    margin-top:30px;
+    border:1px dashed var(--green-dim);
+    padding:34px 28px;
+    max-width:640px;
+    color:var(--text-low);
+    font-family:'JetBrains Mono',monospace;
+    font-size:.9rem;
+    line-height:1.7;
+  }
+  .empty-state .path{color:var(--text-mid);}
+
+  /* ---------- event lists ---------- */
+  .event-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:16px;
+    max-width:1040px;
+    margin-top:30px;
+  }
+  .event-card{
+    background:var(--bg-panel);
+    border:1px solid var(--green-line);
+    padding:18px 20px;
+    position:relative;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .event-card:hover{border-color:var(--green-dim);transform:translateY(-2px);}
+  .event-card .n{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--green-dim);
+    font-size:.75rem;
+    margin-bottom:6px;
+  }
+  .event-card h3{
+    font-family:'JetBrains Mono',monospace;
+    font-size:1rem;
+    color:var(--text-hi);
+    margin-bottom:6px;
+  }
+  .event-card p{color:var(--text-mid);font-size:.85rem;line-height:1.45;}
+
+  .game-pills{
+    display:flex;flex-wrap:wrap;gap:8px;
+    max-width:1000px;
+    margin-top:26px;
+  }
+  .pill{
+    font-family:'JetBrains Mono',monospace;
+    font-size:.78rem;
+    color:var(--cyan);
+    border:1px solid var(--green-line);
+    padding:6px 12px;
+    background:var(--bg-panel);
+  }
+
+  /* ---------- upcoming (hype) ---------- */
+  .hype-row{
+    display:flex;gap:22px;flex-wrap:wrap;margin-top:34px;
+  }
+  .hype-card{
+    background:linear-gradient(160deg, var(--bg-panel-hi), var(--bg-panel));
+    border:1px solid var(--green-dim);
+    padding:26px 26px 22px;
+    max-width:380px;
+    position:relative;
+  }
+  .hype-card::before{
+    content:"LIVE SOON";
+    position:absolute;top:14px;right:16px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    color:var(--bg-void);
+    background:var(--green);
+    padding:3px 8px;
+    letter-spacing:.08em;
+  }
+  .hype-card .date{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--green);
+    font-size:.85rem;
+    margin-bottom:10px;
+  }
+  .hype-card h3{font-family:'JetBrains Mono',monospace;font-size:1.25rem;margin-bottom:10px;color:var(--text-hi);}
+  .hype-card p{color:var(--text-mid);font-size:.9rem;line-height:1.5;}
+  .photo-slot{
+    margin-top:16px;
+    height:90px;
+    border:1px dashed var(--text-low);
+    display:flex;align-items:center;justify-content:center;
+    font-size:10px;color:var(--text-low);
+    font-family:'JetBrains Mono',monospace;
+  }
+
+  /* ---------- announcements ---------- */
+  .roles-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+    gap:14px;
+    max-width:900px;
+    margin-top:30px;
+  }
+  .role-card{
+    border-left:2px solid var(--green);
+    padding:10px 16px;
+    background:var(--bg-panel);
+  }
+  .role-card .k{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--text-low);
+    font-size:11px;
+  }
+  .role-card .v{color:var(--text-hi);font-size:.95rem;margin-top:2px;}
+
+  .deadline-box{
+    margin-top:34px;
+    display:inline-flex;
+    align-items:center;
+    gap:14px;
+    border:1px solid var(--cyan);
+    padding:14px 20px;
+    background:rgba(34,211,238,0.05);
+  }
+  .deadline-box .lbl{font-family:'JetBrains Mono',monospace;color:var(--text-low);font-size:11px;letter-spacing:.08em;}
+  .deadline-box .val{font-family:'JetBrains Mono',monospace;color:var(--cyan);font-size:1.1rem;font-weight:600;}
+
+  /* ---------- ending / socials ---------- */
+  .qr-row{
+    display:flex;gap:32px;margin-top:38px;flex-wrap:wrap;
+  }
+  .qr-card{
+    display:flex;flex-direction:column;align-items:center;gap:12px;
+  }
+  .qr-slot{
+    width:140px;height:140px;
+    border:1px dashed var(--green-dim);
+    display:flex;align-items:center;justify-content:center;
+    font-size:11px;color:var(--text-low);
+    font-family:'JetBrains Mono',monospace;
+    background:var(--bg-panel);
+  }
+  .qr-card .label{font-family:'JetBrains Mono',monospace;color:var(--text-mid);font-size:.85rem;}
+
+  /* ---------- nav ui ---------- */
+  .nav-ui{
+    position:fixed;
+    bottom:26px;left:8vw;right:8vw;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    z-index:5;
+  }
+  .dots{display:flex;gap:9px;}
+  .dot{
+    width:7px;height:7px;
+    background:var(--green-line);
+    cursor:pointer;
+    transition:background .2s ease, box-shadow .2s ease;
+  }
+  .dot.active{background:var(--green);box-shadow:0 0 6px var(--green);}
+
+  .counter{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    color:var(--text-low);
+  }
+  .counter .cur{color:var(--green);}
+
+  .arrows{display:flex;gap:10px;}
+  .arrow-btn{
+    width:34px;height:34px;
+    border:1px solid var(--green-line);
+    background:var(--bg-panel);
+    color:var(--text-mid);
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .arrow-btn:hover{border-color:var(--green);color:var(--green);}
+
+  .progress-line{
+    position:fixed;top:0;left:0;height:2px;
+    background:var(--green);
+    box-shadow:0 0 6px var(--green);
+    z-index:6;
+    transition:width .4s ease;
+  }
+
+  @media (max-width:720px){
+    .slide{padding:8vh 6vw;}
+    .nav-ui{left:6vw;right:6vw;bottom:16px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-line" id="progressLine"></div>
+<div class="glow"></div>
+<div class="circuit-bg">
+  <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+    <path class="trace" d="M0 120 H220 V260 H460 V80 H900"/>
+    <path class="trace" d="M1600 780 H1380 V600 H1140 V820 H700"/>
+    <path class="trace" d="M0 820 H160 V700 H40"/>
+    <path class="trace" d="M1600 100 H1460 V220 H1560"/>
+    <circle class="node" cx="220" cy="120" r="4"/>
+    <circle class="node" cx="460" cy="260" r="4"/>
+    <circle class="node" cx="900" cy="80" r="4"/>
+    <circle class="node" cx="1380" cy="780" r="4"/>
+    <circle class="node" cx="1140" cy="600" r="4"/>
+    <circle class="node" cx="1460" cy="100" r="4"/>
+  </svg>
+</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1. TITLE -->
+  <section class="slide title-slide active">
+    <div class="logo-slot">[ ADD<br>LOGO ]</div>
+    <div class="eyebrow mono">IISER Pune &middot; Orientation 2026</div>
+    <h1>IPLUG<span class="accent">_</span><span class="cursor"></span></h1>
+    <p class="sub mono" style="color:var(--text-mid);margin-top:6px;">IISER Pune Linux Users Group</p>
+    <p class="moto">"Building a home for <b>innovators</b>, <b>coders</b> and <b>gamers</b> —
+      a community around technical curiosity&nbsp;&#128126;, competitive play&nbsp;&#127918;
+      and shared passion&nbsp;&#128104;&#127996;&#8205;&#128187;."</p>
+    <div class="cores">
+      <div class="core-card">
+        <div class="tag">// Tech Core</div>
+        <p>For people who use software and tech — not just for research, but for curiosity, learning, and connection.</p>
+      </div>
+      <div class="core-card">
+        <div class="tag">// Gaming Core</div>
+        <p>Uniting gamers across genres — turning gaming on campus from a solo pastime into a shared culture.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. FACULTY COORDINATOR -->
+  <section class="slide">
+    <div class="eyebrow mono">01 &middot; The People</div>
+    <h2>Faculty Coordinator</h2>
+    <p class="sub">The faculty member who backs IPLUG and keeps the club anchored to the institute.</p>
+    <div class="people-grid" style="max-width:260px;">
+      <div class="person-card">
+        <div class="avatar-slot">[ PHOTO ]</div>
+        <div class="name">[ NAME ]</div>
+        <div class="role">[ DEPARTMENT ]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. PREVIOUS COORDINATORS -->
+  <section class="slide">
+    <div class="eyebrow mono">02 &middot; The People</div>
+    <h2>Previous Coordinators</h2>
+    <p class="sub">The batch that built IPLUG before you walked in.</p>
+    <div class="people-grid">
+      <div class="person-card"><div class="avatar-slot">[ PHOTO ]</div><div class="name">[ NAME ]</div><div class="role">[ ROLE ]</div></div>
+      <div class="person-card"><div class="avatar-slot">[ PHOTO ]</div><div class="name">[ NAME ]</div><div class="role">[ ROLE ]</div></div>
+      <div class="person-card"><div class="avatar-slot">[ PHOTO ]</div><div class="name">[ NAME ]</div><div class="role">[ ROLE ]</div></div>
+      <div class="person-card"><div class="avatar-slot">[ PHOTO ]</div><div class="name">[ NAME ]</div><div class="role">[ ROLE ]</div></div>
+    </div>
+  </section>
+
+  <!-- 4. CURRENT COORDINATORS -->
+  <section class="slide">
+    <div class="eyebrow mono">03 &middot; The People</div>
+    <h2>Current Coordinators</h2>
+    <p class="sub">Who's running things this year — and who you'll be talking to.</p>
+    <div class="people-grid">
+      <div class="person-card"><div class="avatar-slot">[ PHOTO ]</div><div class="name">[ NAME ]</div><div class="role">[ ROLE ]</div></div>
+      <div class="person-card"><div class="avatar-slot">[ PHOTO ]</div><div class="name">[ NAME ]</div><div class="role">[ ROLE ]</div></div>
+      <div class="person-card"><div class="avatar-slot">[ PHOTO ]</div><div class="name">[ NAME ]</div><div class="role">[ ROLE ]</div></div>
+      <div class="person-card"><div class="avatar-slot">[ PHOTO ]</div><div class="name">[ NAME ]</div><div class="role">[ ROLE ]</div></div>
+    </div>
+  </section>
+
+  <!-- 5. EVENTS CONDUCTED LAST YEAR -->
+  <section class="slide">
+    <div class="eyebrow mono">04 &middot; Track Record</div>
+    <h2>Events Conducted &mdash; Last Year</h2>
+    <p class="sub">What IPLUG actually ran, before you take our word for it.</p>
+    <div class="empty-state mono">
+      <span class="path">$</span> cat events_2025.log<br>
+      &gt; [ ADD EVENT NAME &mdash; DATE &mdash; ONE-LINE HIGHLIGHT ]<br>
+      &gt; [ ADD EVENT NAME &mdash; DATE &mdash; ONE-LINE HIGHLIGHT ]<br>
+      &gt; [ ADD EVENT NAME &mdash; DATE &mdash; ONE-LINE HIGHLIGHT ]<br>
+      &gt; [ ADD PHOTOS / TURNOUT NUMBERS IF AVAILABLE ]
+    </div>
+  </section>
+
+  <!-- 6. EVENTS IN PLAN — TECH -->
+  <section class="slide">
+    <div class="eyebrow mono">05 &middot; The Year Ahead</div>
+    <h2>Events in Plan &mdash; Tech Core</h2>
+    <p class="sub">The full lineup for this year, across skill levels and interests.</p>
+    <div class="event-grid">
+      <div class="event-card"><div class="n">01</div><h3>Coding Propaganda</h3><p>Teaching sessions that walk through different aspects of coding — built for people starting from zero.</p></div>
+      <div class="event-card"><div class="n">02</div><h3>Arduino Workshops</h3><p>Put your coding skills into hardware — build something fun and genuinely functional.</p></div>
+      <div class="event-card"><div class="n">03</div><h3>Scientific Computing Workshops</h3><p>A look at how computation actually shows up across different domains of science.</p></div>
+      <div class="event-card"><div class="n">04</div><h3>Coding Nights</h3><p>An open space for coders and non-coders alike to talk ideas and build algorithmic thinking.</p></div>
+      <div class="event-card"><div class="n">05</div><h3>Coder's Den</h3><p>A competitive coding contest — maths, algorithms, and puzzle-solving under time pressure.</p></div>
+      <div class="event-card"><div class="n">06</div><h3>Tex-Nologia</h3><p>A contest to flex your typesetting skills using LaTeX.</p></div>
+    </div>
+  </section>
+
+  <!-- 7. EVENTS IN PLAN — GAMING -->
+  <section class="slide">
+    <div class="eyebrow mono">06 &middot; The Year Ahead</div>
+    <h2>Events in Plan &mdash; Gaming Core</h2>
+    <p class="sub">Run under our gaming community, <span style="color:var(--cyan);">CLUTCH</span> — tournaments and chill sessions, all year.</p>
+    <div class="game-pills">
+      <div class="pill">BGMI</div>
+      <div class="pill">CODM</div>
+      <div class="pill">Valorant</div>
+      <div class="pill">Minecraft</div>
+      <div class="pill">Clash Royale</div>
+      <div class="pill">Terraria</div>
+      <div class="pill">Pokemon Champions</div>
+      <div class="pill">Counter-Strike</div>
+      <div class="pill">Marvel Rivals</div>
+      <div class="pill">Marvel Tokon</div>
+      <div class="pill">Among Us</div>
+      <div class="pill">Tekken</div>
+    </div>
+  </section>
+
+  <!-- 8. UPCOMING EVENTS -->
+  <section class="slide">
+    <div class="eyebrow mono">07 &middot; Don't Miss These</div>
+    <h2>Upcoming Events</h2>
+    <p class="sub">The two things happening right now — mark your calendar.</p>
+    <div class="hype-row">
+      <div class="hype-card">
+        <div class="date mono">28 AUG &middot; 6:00 PM ONWARDS</div>
+        <h3>Coding Propaganda — Session 1</h3>
+        <p>"Exploring Coding in Science &amp; Python Intro." First session of the year — no prior experience needed.</p>
+        <div class="photo-slot">[ ADD EVENT POSTER / VENUE ]</div>
+      </div>
+      <div class="hype-card">
+        <div class="date mono">NEXT WEEKEND</div>
+        <h3>Gaming Event: Minecraft</h3>
+        <p>CLUTCH's next session — build, survive, and cause chaos with the rest of campus.</p>
+        <div class="photo-slot">[ ADD EVENT POSTER / VENUE ]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. ANNOUNCEMENTS — JOIN THE TEAM -->
+  <section class="slide">
+    <div class="eyebrow mono">08 &middot; Announcement</div>
+    <h2>We Need Your Help</h2>
+    <p class="sub">IPLUG runs on volunteers. Join as a core member or a volunteer in any of these teams:</p>
+    <div class="roles-grid">
+      <div class="role-card"><div class="k mono">A</div><div class="v">Web Development for IPLUG</div></div>
+      <div class="role-card"><div class="k mono">B</div><div class="v">Design</div></div>
+      <div class="role-card"><div class="k mono">C</div><div class="v">Content Creation</div></div>
+      <div class="role-card"><div class="k mono">D</div><div class="v">Social Media &amp; Publicity</div></div>
+      <div class="role-card"><div class="k mono">E</div><div class="v">Logistics</div></div>
+    </div>
+  </section>
+
+  <!-- 10. ANNOUNCEMENTS — MERCH -->
+  <section class="slide">
+    <div class="eyebrow mono">09 &middot; Announcement</div>
+    <h2>Merch Design Competition</h2>
+    <p class="sub">Designed something you'd want printed on a hoodie? Submit it — this is open to everyone, not just designers.</p>
+    <div class="deadline-box">
+      <div>
+        <div class="lbl">SUBMISSIONS CLOSE</div>
+        <div class="val">13 SEP &middot; 11:59:59 PM</div>
+      </div>
+    </div>
+    <div class="photo-slot" style="max-width:420px;margin-top:24px;">[ ADD SUBMISSION LINK / FORM QR ]</div>
+  </section>
+
+  <!-- 11. ENDING -->
+  <section class="slide">
+    <div class="eyebrow mono">Connect</div>
+    <h1 style="font-size:clamp(1.8rem,4vw,3rem);">Stay in the loop<span class="cursor"></span></h1>
+    <p class="sub">Follow, join, and show up. That's it.</p>
+    <div class="qr-row">
+      <div class="qr-card">
+        <div class="qr-slot">[ INSTA QR ]</div>
+        <div class="label">Instagram</div>
+      </div>
+      <div class="qr-card">
+        <div class="qr-slot">[ WHATSAPP QR ]</div>
+        <div class="label">WhatsApp Group</div>
+      </div>
+      <div class="qr-card">
+        <div class="qr-slot">[ DISCORD QR ]</div>
+        <div class="label">Discord</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav-ui">
+  <div class="arrows">
+    <button class="arrow-btn mono" id="prevBtn">&#8592;</button>
+    <button class="arrow-btn mono" id="nextBtn">&#8594;</button>
+  </div>
+  <div class="dots" id="dots"></div>
+  <div class="counter mono"><span class="cur" id="curNum">01</span> / <span id="totNum">11</span></div>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const dotsWrap = document.getElementById('dots');
+  const curNum = document.getElementById('curNum');
+  const totNum = document.getElementById('totNum');
+  const progressLine = document.getElementById('progressLine');
+  let current = 0;
+
+  totNum.textContent = String(slides.length).padStart(2,'0');
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(dot);
+  });
+  const dots = document.querySelectorAll('.dot');
+
+  function update() {
+    slides.forEach((s, i) => s.classList.toggle('active', i === current));
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+    curNum.textContent = String(current + 1).padStart(2,'0');
+    progressLine.style.width = ((current + 1) / slides.length * 100) + '%';
+  }
+
+  function goTo(i) {
+    current = Math.max(0, Math.min(slides.length - 1, i));
+    update();
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+  document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') goTo(current + 1);
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+  });
+
+  let touchStartX = 0;
+  window.addEventListener('touchstart', e => touchStartX = e.touches[0].clientX);
+  window.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (dx > 50) goTo(current - 1);
+    if (dx < -50) goTo(current + 1);
+  });
+
+  update();
+</script>
+
+</body>
+</html>
