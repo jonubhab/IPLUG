@@ -325,13 +325,24 @@ h2 .accent{ color: var(--green); }
   flex-wrap: wrap;
   gap: 8px;
 }
-.tag{
-  font-family: var(--font-display);
-  font-size: 12px;
-  padding: 6px 12px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  color: var(--text-dim);
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    linear-gradient(#dc2626, #dc2626) no-repeat,
+    #fff;
+  background-size: 12.5% 1.5px; /* width, thickness of the red bit */
+  background-position: 0 0;
+  border-radius: 8px; /* match the rounded corners in the image */
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  padding: 20px 24px;
+  margin: 8px;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-weight: 700;
+  text-align: center;
 }
 
 /* gaming slide: tags become evenly-filled cells instead of a wrapped
