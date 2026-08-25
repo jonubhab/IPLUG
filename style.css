@@ -1,0 +1,482 @@
+/* ==========================================================================
+   IPLUG Orientation Deck — Design Tokens (LIGHT THEME)
+   Palette:  bg #f6f8fa · panel #ffffff · line #dde3ea
+             red (brand) #d42a29 · green (tech/terminal) #0f9d58
+             cyan (gaming) #0089c2 · amber (cta) #b8720a
+   Type:     Display/labels — 'Space Mono'   Body — 'Inter'
+   Signature: animated circuit-trace background + terminal boot sequence
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg:        #f6f8fa;
+  --bg-alt:    #eef2f6;
+  --panel:     #ffffff;
+  --panel-2:   #eef2f6;
+  --line:      #dde3ea;
+  --line-soft: #e6eaf0;
+
+  --red:       #d42a29;
+  --red-dim:   #f3c8c7;
+  --green:     #d42a29;
+  --green-dim: #f3c8c7;
+  --cyan:      #d42a29;
+  --cyan-dim:  #f3c8c7;
+  --amber:     #b8720a;
+
+  /* circuit-bg + progress bar only — kept separate so the red/white
+     card & text theme elsewhere is untouched */
+  --circuit-cyan:   #00c2e0;
+  --progress-cyan:  #0089c2;
+  --progress-green: #0f9d58;
+
+  --text:      #10171f;
+  --text-dim:  #4c5a68;
+  --text-faint:#8a97a4;
+
+  --font-display: 'Space Mono', 'Courier New', monospace;
+  --font-body:    'Inter', system-ui, sans-serif;
+
+  --radius: 3px;
+  --slide-pad: clamp(24px, 6vw, 88px);
+}
+
+*, *::before, *::after{ box-sizing: border-box; }
+html, body{ height: 100%; }
+body{
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow: hidden;
+}
+
+::selection{ background: var(--green); color: #f4fff9; }
+
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------- circuit-board backdrop (signature element) ---------- */
+#circuit-bg{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.75;
+  pointer-events: none;
+}
+#circuit-bg path{
+  fill: none;
+  stroke: var(--circuit-cyan);
+  stroke-opacity: 0.3;
+  stroke-width: 1.2;
+}
+#circuit-bg .node{
+  fill: var(--circuit-cyan);
+  opacity: 0;
+  filter: drop-shadow(0 0 3px var(--circuit-cyan));
+  animation: pulse-node 4.5s ease-in-out infinite;
+}
+#circuit-bg .trace-lit{
+  stroke: var(--circuit-cyan);
+  stroke-opacity: 0;
+  filter: drop-shadow(0 0 2px var(--circuit-cyan));
+  animation: pulse-trace 4.5s ease-in-out infinite;
+}
+@keyframes pulse-node{
+  0%, 100%{ opacity: 0; }
+  50%{ opacity: 0.95; }
+}
+@keyframes pulse-trace{
+  0%, 100%{ stroke-opacity: 0; }
+  50%{ stroke-opacity: 0.85; }
+}
+
+.hex-overlay{
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(30deg, var(--line-soft) 1px, transparent 1px),
+    linear-gradient(150deg, var(--line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+  background-size: 52px 90px;
+  opacity: 0.5;
+  pointer-events: none;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 85%);
+}
+
+/* ---------- deck / slide scaffolding ---------- */
+#deck{
+  position: relative;
+  z-index: 1;
+  height: 100vh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+#deck::-webkit-scrollbar{ display: none; }
+
+.slide{
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--slide-pad);
+  overflow: hidden;
+}
+
+.slide-inner{
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.nondollar{
+  font-family: var(--font-display);
+  font-size: clamp(11px, 1.1vw, 13px);
+  color: var(--green);
+  letter-spacing: 0.02em;
+  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.nondollar .cursor{
+  display: inline-block;
+  width: 7px; height: 14px;
+  background: var(--green);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink{ 50%{ opacity: 0; } }
+
+.eyebrow{
+  font-family: var(--font-display);
+  font-size: clamp(11px, 1.1vw, 13px);
+  color: var(--green);
+  letter-spacing: 0.02em;
+  margin: 0 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.eyebrow::before{ content: "$"; color: var(--text-faint); }
+.eyebrow .cursor{
+  display: inline-block;
+  width: 7px; height: 14px;
+  background: var(--green);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink{ 50%{ opacity: 0; } }
+
+.slide[data-theme="gaming"] .eyebrow{ color: var(--cyan); }
+.slide[data-theme="gaming"] .eyebrow .cursor{ background: var(--cyan); }
+
+h1, h2, h3{
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+h2{
+  font-size: clamp(28px, 4.4vw, 46px);
+  color: var(--text);
+  margin-bottom: 8px;
+}
+h2 .accent{ color: var(--green); }
+.slide[data-theme="gaming"] h2 .accent{ color: var(--cyan); }
+
+.subhead{
+  font-family: var(--font-body);
+  color: var(--text-dim);
+  font-size: clamp(14px, 1.5vw, 17px);
+  max-width: 680px;
+  margin: 0 0 40px;
+  line-height: 1.55;
+}
+
+.section-num{
+  position: absolute;
+  top: var(--slide-pad);
+  right: var(--slide-pad);
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--text-faint);
+  z-index: 2;
+}
+
+/* ---------- reusable pieces ---------- */
+.badge{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--text-dim);
+  background: rgba(255,255,255,0.7);
+}
+.badge.green{ border-color: var(--green-dim); color: var(--green); }
+.badge.cyan{ border-color: var(--cyan-dim); color: var(--cyan); }
+.badge.red{ border-color: var(--red-dim); color: var(--red); }
+
+.card{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(16,23,31,0.06);
+}
+.card::before{
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 28px; height: 2px;
+  background: var(--green);
+}
+.slide[data-theme="gaming"] .card::before{ background: var(--cyan); }
+
+.grid{
+  display: grid;
+  gap: 16px;
+}
+.grid-2{ grid-template-columns: repeat(2, 1fr); }
+.grid-3{ grid-template-columns: repeat(3, 1fr); }
+
+.avatar-ph{
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius);
+  border: 1px dashed var(--line);
+  background:
+    repeating-linear-gradient(45deg, var(--panel-2), var(--panel-2) 6px, var(--panel) 6px, var(--panel) 12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-faint);
+  font-family: var(--font-display);
+  font-size: 11px;
+  text-align: center;
+  padding: 8px;
+  margin-bottom: 12px;
+}
+
+.deadline-box{
+  background: var(--panel);
+  border: 1.5px solid var(--red);
+  border-radius: 6px;
+  padding: 28px 40px;
+  box-shadow: 0 0 0 1px var(--red-dim), 0 8px 28px rgba(212,42,41,0.18);
+}
+.deadline-box .deadline-datetime{
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--text);
+  margin: 4px 0 16px;
+}
+.deadline-box .deadline-timer{
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 700;
+  color: var(--red);
+  letter-spacing: 0.01em;
+}
+.deadline-box .deadline-timer .unit{
+  font-size: 0.4em;
+  color: var(--text-dim);
+  margin-right: 10px;
+  font-weight: 400;
+}
+
+.qr-ph{
+  width: 168px;
+  height: 168px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-faint);
+  font-family: var(--font-display);
+  font-size: 11px;
+  text-align: center;
+  padding: 10px;
+}
+
+.tag-list{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tag{
+  font-family: var(--font-display);
+  font-size: 12px;
+  padding: 6px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+}
+
+/* gaming slide: tags become evenly-filled cells instead of a wrapped
+   flex row, and read at a much larger size */
+.slide[data-theme="gaming"] .tag-list{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  width: 100%;
+  margin-top: 8px;
+}
+.slide[data-theme="gaming"] .tag{
+  font-size: 18px;
+  padding: 18px 14px;
+  text-align: center;
+  border-radius: var(--radius);
+}
+
+/* ---------- nav: dots + arrows + progress ---------- */
+#progress{
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--progress-cyan), var(--progress-green));
+  width: 0%;
+  z-index: 10;
+  transition: width 0.4s ease;
+}
+
+#dot-nav{
+  position: fixed;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+/* script.js wraps everything in one .dot-track div (line + fill + snake +
+   dots) and appends it into #dot-nav. .dot-track itself needs to be the
+   flex column — #dot-nav no longer lays out children directly since it
+   only has this one child now. */
+.dot-track{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+/* The "eaten trail" elements (connecting line, green fill, glowing snake
+   head) are part of the snake-nav concept in script.js but aren't part of
+   the simpler "current dot elongates" look we want — hide them rather
+   than deleting the JS that builds them. */
+.dot-track-line,
+.dot-track-line-fill,
+#nav-snake{
+  display: none;
+}
+
+/* Dots: idle state is a small circle. script.js toggles `.current` on
+   whichever dot matches the active slide (not `.active`). Because this is
+   driven purely by the class, moving .current from one dot to the next
+   animates BOTH at once: the old pill shrinks back to a dot while the new
+   dot grows into a pill, at the same time. */
+.dot{
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--line);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition:
+    height 0.35s cubic-bezier(.4,0,.2,1),
+    background 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+}
+.dot:hover:not(.current){ transform: scale(1.3); }
+.dot.eaten{ background: var(--line); }
+.dot.current{
+  height: 26px;
+  background: var(--green);
+  box-shadow: 0 0 8px rgba(15,157,88,0.45);
+}
+
+/* Optional: if you toggle a `theme-gaming` class on #dot-nav from JS
+   when the current slide's data-theme is "gaming", this recolors the
+   active pill to cyan to match that slide's accent. Not wired up by
+   script.js yet — inert until you add that class toggle in setActive(). */
+#dot-nav.theme-gaming .dot.current{
+  background: var(--cyan);
+  box-shadow: 0 0 8px rgba(0,137,194,0.45);
+}
+
+#arrow-nav{
+  position: fixed;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: var(--font-display);
+}
+.nav-btn{
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(6px);
+  color: var(--text);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+  box-shadow: 0 1px 3px rgba(16,23,31,0.08);
+}
+.nav-btn:hover{ border-color: var(--green); color: var(--green); }
+.nav-btn:disabled{ opacity: 0.3; cursor: default; }
+#slide-counter{ font-size: 12px; color: var(--text-dim); min-width: 44px; text-align: center; }
+
+.scroll-cue{
+  position: absolute;
+  bottom: 34px;
+  left: var(--slide-pad);
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--text-faint);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.scroll-cue .chev{ animation: bob 1.6s ease-in-out infinite; }
+@keyframes bob{
+  0%, 100%{ transform: translateY(0); }
+  50%{ transform: translateY(4px); }
+}
+
+@media (max-width: 720px){
+  #dot-nav{ display: none; }
+  .grid-3{ grid-template-columns: 1fr 1fr; }
+  .grid-2{ grid-template-columns: 1fr; }
+  .slide[data-theme="gaming"] .tag-list{ grid-template-columns: repeat(2, 1fr); }
+}
