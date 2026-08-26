@@ -571,6 +571,13 @@ h2 .accent{ color: var(--green); }
   .slide{
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    /* Centering (justify-content:center, set above for desktop) breaks
+       once content is taller than the screen: the browser centers the
+       overflow too, pushing the top half — heading, photo — above
+       scrollTop 0, where it can never be scrolled to. Top-align instead
+       so everything starts in view and any extra content is reachable
+       by scrolling down. */
+    justify-content: flex-start;
     padding-top: calc(var(--slide-pad) + 6px);
     padding-bottom: calc(var(--slide-pad) + 6px);
   }
