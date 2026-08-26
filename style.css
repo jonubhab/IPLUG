@@ -553,4 +553,46 @@ h2 .accent{ color: var(--green); }
   .grid-3{ grid-template-columns: 1fr 1fr; }
   .grid-2{ grid-template-columns: 1fr; }
   .slide[data-theme="gaming"] .tag-list{ grid-template-columns: repeat(2, 1fr); }
+
+  /* ---- viewport-height fix: mobile browser chrome (address bar, etc.)
+     makes 100vh unreliable. dvh tracks the *actual* visible area, so use
+     it where supported; 100vh stays as the fallback for older browsers.
+     Scoped to this breakpoint only, so desktop keeps plain 100vh. ---- */
+  #deck{ height: 100vh; }
+  #deck{ height: 100dvh; }
+  .slide{ height: 100vh; min-height: 100vh; }
+  .slide{ height: 100dvh; min-height: 100dvh; }
+
+  /* ---- allow a slide's own content to scroll on phones ----
+     Several slides (event grids, results lists, the term glossary) run
+     taller than one phone screen. Desktop has room and clips on purpose;
+     on mobile that clipping just hides content, so let the slide itself
+     scroll instead of the whole deck refusing to reveal it. */
+  .slide{
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-top: calc(var(--slide-pad) + 6px);
+    padding-bottom: calc(var(--slide-pad) + 6px);
+  }
+  .slide-inner{ padding-bottom: 8px; }
+
+  /* ---- prevent stray horizontal scroll on narrow widths ---- */
+  html, body{ overflow-x: hidden; }
+  .slide{ overflow-x: hidden; }
+
+  /* ---- tighten oversized fixed-size chunks so nothing spills off a
+     narrow screen ---- */
+  .deadline-box{ padding: 20px 22px; }
+  .deadline-box .deadline-timer{ font-size: clamp(26px, 8vw, 40px); }
+  .terminal-body{ padding: 16px 16px 18px; gap: 12px 18px; }
+  .qr-ph{ width: 132px; height: 132px; }
+  .section-num{ display: none; }
+}
+
+/* Extra-small phones: back grid-3 off to a single column so card text
+   (event names + descriptions) doesn't get squeezed into a sliver. */
+@media (max-width: 420px){
+  .grid-3{ grid-template-columns: 1fr; }
+  .slide[data-theme="gaming"] .tag-list{ grid-template-columns: repeat(2, 1fr); }
+  .card{ padding: 18px 18px; }
 }
