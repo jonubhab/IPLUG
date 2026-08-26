@@ -1,0 +1,203 @@
+/* ==========================================================================
+   IPLUG Orientation Deck — MOBILE build
+   Same brand tokens as style.css, but laid out as a normal scrolling page
+   instead of fixed-height/scroll-snap slides. Nothing here is height-
+   locked, so content can never get clipped or scrolled out of reach —
+   the failure mode the desktop deck hit on small screens.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg:        #f6f8fa;
+  --bg-alt:    #eef2f6;
+  --panel:     #ffffff;
+  --panel-2:   #eef2f6;
+  --line:      #dde3ea;
+  --line-soft: #e6eaf0;
+
+  --red:       #d42a29;
+  --red-dim:   #f3c8c7;
+  --green:     #d42a29;
+  --green-dim: #f3c8c7;
+  --cyan:      #d42a29;
+  --cyan-dim:  #f3c8c7;
+  --amber:     #b8720a;
+
+  --circuit-cyan:   #00c2e0;
+  --progress-cyan:  #0089c2;
+  --progress-green: #0f9d58;
+
+  --text:      #10171f;
+  --text-dim:  #4c5a68;
+  --text-faint:#8a97a4;
+
+  --font-display: 'Space Mono', 'Courier New', monospace;
+  --font-body:    'Inter', system-ui, sans-serif;
+
+  --radius: 3px;
+  --pad: 22px;
+}
+
+*, *::before, *::after{ box-sizing: border-box; }
+html{ -webkit-text-size-adjust: 100%; }
+body{
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+::selection{ background: var(--green); color: #f4fff9; }
+
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+img{ max-width: 100%; display: block; }
+
+/* ---------- circuit-board backdrop (kept, decorative, scales fine) ---------- */
+#circuit-bg{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  pointer-events: none;
+}
+#circuit-bg path{ fill: none; stroke: var(--circuit-cyan); stroke-opacity: 0.25; stroke-width: 1.2; }
+#circuit-bg .node{ fill: var(--circuit-cyan); opacity: 0; filter: drop-shadow(0 0 3px var(--circuit-cyan)); animation: pulse-node 4.5s ease-in-out infinite; }
+#circuit-bg .trace-lit{ stroke: var(--circuit-cyan); stroke-opacity: 0; filter: drop-shadow(0 0 2px var(--circuit-cyan)); animation: pulse-trace 4.5s ease-in-out infinite; }
+@keyframes pulse-node{ 0%, 100%{ opacity: 0; } 50%{ opacity: 0.95; } }
+@keyframes pulse-trace{ 0%, 100%{ stroke-opacity: 0; } 50%{ stroke-opacity: 0.85; } }
+
+/* ---------- page scaffolding: plain top-to-bottom flow ---------- */
+main{
+  position: relative;
+  z-index: 1;
+}
+
+.section{
+  position: relative;
+  width: 100%;
+  padding: 40px var(--pad) 44px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.section:last-child{ border-bottom: none; }
+.section[data-theme="gaming"]{ background: var(--bg-alt); }
+
+.section-inner{ max-width: 640px; margin: 0 auto; }
+
+.eyebrow{
+  font-family: var(--font-display);
+  font-size: 12px;
+  color: var(--green);
+  letter-spacing: 0.02em;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.eyebrow::before{ content: "$"; color: var(--text-faint); }
+.eyebrow .cursor{ display: inline-block; width: 7px; height: 13px; background: var(--green); animation: blink 1s steps(1) infinite; }
+@keyframes blink{ 50%{ opacity: 0; } }
+.section[data-theme="gaming"] .eyebrow{ color: var(--cyan); }
+.section[data-theme="gaming"] .eyebrow .cursor{ background: var(--cyan); }
+
+h1, h2, h3{ font-family: var(--font-display); font-weight: 700; margin: 0; line-height: 1.12; letter-spacing: -0.01em; }
+h2{ font-size: 26px; color: var(--text); margin-bottom: 8px; }
+h2 .accent{ color: var(--green); }
+.section[data-theme="gaming"] h2 .accent{ color: var(--cyan); }
+
+.subhead{ font-family: var(--font-body); color: var(--text-dim); font-size: 14.5px; margin: 0 0 24px; line-height: 1.55; }
+
+.badge{
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-display); font-size: 11.5px;
+  padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px;
+  color: var(--text-dim); background: rgba(255,255,255,0.7);
+}
+.badge.green{ border-color: var(--green-dim); color: var(--green); }
+.badge.cyan{ border-color: var(--cyan-dim); color: var(--cyan); }
+.badge.red{ border-color: var(--red-dim); color: var(--red); }
+
+.card{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 18px;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(16,23,31,0.06);
+  margin-bottom: 14px;
+}
+.card:last-child{ margin-bottom: 0; }
+.card::before{ content: ""; position: absolute; top: 0; left: 0; width: 28px; height: 2px; background: var(--green); }
+.section[data-theme="gaming"] .card::before{ background: var(--cyan); }
+.card h3{ font-size: 14.5px; margin-bottom: 6px; }
+.card p{ color: var(--text-dim); font-size: 13px; line-height: 1.5; margin: 0; }
+
+.people-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.people-grid.single{ grid-template-columns: 1fr; max-width: 260px; }
+.person .avatar-ph{
+  width: 100%; aspect-ratio: 1; border-radius: var(--radius);
+  border: 1px solid var(--line); overflow: hidden; margin-bottom: 10px;
+  background: repeating-linear-gradient(45deg, var(--panel-2), var(--panel-2) 6px, var(--panel) 6px, var(--panel) 12px);
+}
+.person .avatar-ph img{ width: 100%; height: 100%; object-fit: cover; }
+.person .name{ font-family: var(--font-display); font-size: 13.5px; color: var(--text); }
+.person .role{ color: var(--text-dim); font-size: 11.5px; margin-top: 2px; }
+
+.tag-list{ display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 8px; }
+.tag{
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background: #fff; border: 1px solid var(--line);
+  border-radius: 6px; padding: 14px 8px;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-weight: 700; font-size: 13px; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.deadline-box{
+  background: var(--panel); border: 1.5px solid var(--red); border-radius: 6px;
+  padding: 20px 22px; box-shadow: 0 0 0 1px var(--red-dim), 0 8px 24px rgba(212,42,41,0.16);
+}
+.deadline-box .deadline-datetime{ font-family: var(--font-display); font-size: 13px; color: var(--text); margin: 4px 0 14px; }
+.deadline-box .deadline-timer{ font-family: var(--font-display); font-size: 34px; font-weight: 700; color: var(--red); }
+.deadline-box .deadline-timer .unit{ font-size: 0.4em; color: var(--text-dim); margin-right: 8px; font-weight: 400; }
+
+.qr-ph{
+  width: 132px; height: 132px; border: 1px solid var(--line); border-radius: var(--radius);
+  overflow: hidden; background: var(--panel-2);
+}
+.qr-ph img{ width: 100%; height: 100%; object-fit: cover; }
+.qr-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 20px; justify-items: center; margin-top: 12px; }
+.qr-item{ text-align: center; }
+.qr-item .label{ font-family: var(--font-display); font-size: 11.5px; color: var(--text-dim); margin-top: 8px; }
+
+.results-list{ list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.results-list li{ display: flex; justify-content: space-between; gap: 12px; }
+.results-list .who{ color: var(--text); font-size: 13px; }
+.results-list .tag-id{ font-family: var(--font-display); color: var(--text-faint); font-size: 11.5px; white-space: nowrap; }
+
+.term-card{ border-bottom: 1px dashed var(--line); padding: 12px 0; }
+.term-card:last-child{ border-bottom: none; }
+.term-cmd{ font-family: var(--font-display); font-size: 13px; color: var(--red); }
+.term-cmd::before{ content: "$ "; color: var(--text-faint); }
+.term-def{ font-family: var(--font-body); font-size: 12.5px; color: var(--text-dim); line-height: 1.5; margin: 4px 0 0; }
+.term-note{ font-family: var(--font-display); font-size: 10.5px; color: var(--progress-cyan); margin-top: 3px; }
+
+.center{ text-align: center; }
+.logo-sm{ width: 72px; height: 72px; margin: 0 auto 18px; }
+.hero-badges{ display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+
+footer.closing-note{
+  text-align: center; padding: 30px var(--pad) 46px;
+  color: var(--text-faint); font-family: var(--font-display); font-size: 12px;
+}
+
+#deadlineTimerMobile{ font-family: var(--font-display); }

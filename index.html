@@ -2,6 +2,21 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- Device gateway: same link for everyone, different build per device.
+     Runs before anything else so mobile visitors never see the desktop
+     deck flash. Re-checks are only on load; someone who resizes the
+     browser window across the breakpoint after loading needs a refresh
+     to switch — an acceptable trade-off for a static GitHub Pages site
+     with no server-side device detection. -->
+<script>
+(function () {
+  var isNarrow = window.matchMedia && window.matchMedia('(max-width: 800px)').matches;
+  var isMobileUA = /Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(navigator.userAgent || '');
+  if (isNarrow || isMobileUA) {
+    location.replace('mobile.html' + location.search + location.hash);
+  }
+})();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IPLUG — Freshers' Orientation</title>
 <link rel="stylesheet" href="style.css">

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<script>
+(function () {
+  var isWide = window.matchMedia && window.matchMedia('(min-width: 801px)').matches;
+  var isMobileUA = /Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(navigator.userAgent || '');
+  if (isWide && !isMobileUA) {
+    location.replace('index.html' + location.search + location.hash);
+  }
+})();
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPLUG — Freshers' Orientation</title>
+<link rel="stylesheet" href="mobile.css">
+</head>
+<body>
+
+<svg id="circuit-bg"></svg>
+
+<main>
+
+  <!-- 1. TITLE -->
+  <section class="section center" data-theme="tech">
+    <img src="./assets/logo.svg" alt="IPLUG logo" class="logo-sm">
+    <div class="eyebrow" style="justify-content:center;">windows@not_linux<span style="color:var(--text-faint)">:~$</span> ssh iplug@iiserpune.ac.in<span class="cursor"></span></div>
+    <h1 id="typed-title" style="font-size:52px; color:var(--text);"></h1>
+    <p style="font-family:var(--font-display); font-size:13px; color:var(--text-dim); margin:12px 0 20px;">
+      IISER Pune Linux Users Group
+    </p>
+    <p style="color:var(--text-dim); font-size:14px; line-height:1.6; margin:0;">
+      Building a home for innovators, coders and gamers — a community around
+      technical curiosity&nbsp;👾, competitive play&nbsp;🎮 and shared passion&nbsp;👨🏻‍💻
+    </p>
+    <div class="hero-badges">
+      <span class="badge green">Tech</span>
+      <span class="badge cyan">Gaming</span>
+      <span class="badge">Orientation · 2026</span>
+    </div>
+  </section>
+
+  <!-- 2. WHAT IS IPLUG -->
+  <section class="section" data-theme="tech">
+    <div class="section-inner">
+      <div class="eyebrow">cat about_iplug.md<span class="cursor"></span></div>
+      <h2>Aren't you using <span class="accent">Linux yet? </span></h2>
+      <p class="subhead">We're a Linux Users Group at heart, but we've grown well beyond that — into a home for anyone curious about technology and anyone who loves to play.</p>
+      <div class="card">
+        <div class="badge green" style="margin-bottom:12px;">TECH</div>
+        <p>A community for people who use software and tech — not just for research, but for curiosity, learning, and connection.</p>
+      </div>
+      <div class="card">
+        <div class="badge green" style="margin-bottom:12px;">CLUTCH</div>
+        <p>Uniting gamers across genres to transform gaming on campus from a solo pastime into a shared culture.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. FACULTY COORDINATOR -->
+  <section class="section" data-theme="tech">
+    <div class="section-inner">
+      <div class="eyebrow">whoami --faculty<span class="cursor"></span></div>
+      <h2>Faculty <span class="accent">Coordinator</span></h2>
+      <p class="subhead">The mentor who backs IPLUG from the faculty side.</p>
+      <div class="people-grid single">
+        <div class="person">
+          <div class="avatar-ph"><img src="./assets/Joy.jpg" alt="Joy"></div>
+          <div class="name">Joy Merwin Monteiro</div>
+          <div class="role">Earth &amp; Climate Science</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. PREVIOUS COORDINATORS -->
+  <section class="section" data-theme="tech">
+    <div class="section-inner">
+      <div class="eyebrow">git log --authors=previous-coords<span class="cursor"></span></div>
+      <h2>Previous <span class="accent">Coordinators</span></h2>
+      <p class="subhead">The people who built IPLUG before us.</p>
+      <div class="people-grid">
+        <div class="person">
+          <div class="avatar-ph"><img src="./assets/Satyam.jpeg" alt="Satyam"></div>
+          <div class="name">Satyam Kumar Jha</div>
+          <div class="role">BSMS 3rd Year</div>
+        </div>
+        <div class="person">
+          <div class="avatar-ph"><img src="./assets/Miheer.jpeg" alt="Miheer"></div>
+          <div class="name">Miheer Choudhary</div>
+          <div class="role">BSMS 3rd Year</div>
+        </div>
+        <div class="person">
+          <div class="avatar-ph"><img src="./assets/Baibhab.jpeg" alt="Baibhab"></div>
+          <div class="name">Baibhab Nayak</div>
+          <div class="role">BSMS 3rd Year</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. CURRENT COORDINATORS -->
+  <section class="section" data-theme="tech">
+    <div class="section-inner">
+      <div class="eyebrow">git log --authors=current-coords --since=now<span class="cursor"></span></div>
+      <h2>Current <span class="accent">Coordinators</span></h2>
+      <p class="subhead">Who's running the show this year — come say hi.</p>
+      <div class="people-grid">
+        <div class="person">
+          <div class="avatar-ph"><img src="./assets/Anubhab.jpeg" alt="Anubhab"></div>
+          <div class="name">Anubhab Sen</div>
+          <div class="role">BSMS 2nd Year</div>
+        </div>
+        <div class="person">
+          <div class="avatar-ph"><img src="./assets/Manikantan.jpeg" alt="Mani"></div>
+          <div class="name">M. Manikantan</div>
+          <div class="role">BSMS 3rd Year</div>
+        </div>
+        <div class="person">
+          <div class="avatar-ph"><img src="./assets/Arka.jpeg" alt="Arka"></div>
+          <div class="name">Arka Banerjee</div>
+          <div class="role">BSMS 3rd Year</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5b. TECH VS GAMING SPLIT -->
+  <section class="section" data-theme="tech">
+    <div class="section-inner">
+      <div class="eyebrow">split iplug.txt<span class="cursor"></span></div>
+      <h2>Two Cores. <span class="accent">One Community. </span></h2>
+      <p class="subhead">Tech vs Gaming</p>
+      <div class="people-grid">
+        <div class="person">
+          <div class="avatar-ph"><img src="./assets/Anubhab.jpeg" alt="Anubhab"></div>
+          <div class="name">Anubhab Sen</div>
+          <div class="role">Tech Coordinator</div>
+        </div>
+        <div class="person">
+          <div class="avatar-ph"><img src="./assets/Swastik.jpeg" alt="Swastik"></div>
+          <div class="name">Swastik Kumar Dash</div>
+          <div class="role">CLUTCH Coordinator</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. EVENTS CONDUCTED LAST YEAR -->
+  <section class="section" data-theme="tech">
+    <div class="section-inner">
+      <div class="eyebrow">ls -l events/last_year/<span class="cursor"></span></div>
+      <h2>Events Conducted <span class="accent">Last Year</span></h2>
+      <p class="subhead">A quick look at what we ran.</p>
+      <div class="card"><h3>01. Python Sessions for Freshers</h3><p>Helped people get acquainted to python</p></div>
+      <div class="card"><h3>02. C++ Workshops</h3><p>Introduced C++ with Prof. Kalpesh Kapoor</p></div>
+      <div class="card"><h3>03. TeXnologia</h3><p>a LaTeX Competition</p></div>
+      <div class="card"><h3>04. Karavaan Game Nights</h3><p>10+ competitions over 3 days.</p></div>
+      <div class="card"><h3>05. Tinkering Thursdays</h3><p>chill sessions over tech.</p></div>
+      <div class="card"><h3>06. Functional Programming</h3><p>Workshop on Lean/Functional Programming</p></div>
+      <div class="card"><h3>07. Arduino Session</h3><p>Arduino session for 3rd years who took Electronics-1 w/ lab.</p></div>
+      <div class="card"><h3>08. IPLUG Gaming Showdown</h3><p>BGMI + CODM + Valorant + Marvel Rivals + FIFA eFootball tournaments</p></div>
+      <div class="card"><h3>09. Minecraft Server</h3><p>Maintaining an Institute wide Minecraft server</p></div>
+    </div>
+  </section>
+
+  <!-- 7. EVENTS PLANNED - TECH -->
+  <section class="section" data-theme="tech">
+    <div class="section-inner">
+      <div class="eyebrow">cat roadmap/tech_2026.md<span class="cursor"></span></div>
+      <h2>This Year — <span class="accent">Tech</span></h2>
+      <p class="subhead">Stay tuned for the following.</p>
+      <div class="card"><h3>Plugged In</h3><p>Teaching sessions exploring the different aspects of coding.</p></div>
+      <div class="card"><h3>Arduino Workshops</h3><p>Put your coding skills to use — build something fun and innovative.</p></div>
+      <div class="card"><h3>Scientific Computing</h3><p>Exposing the computational work across domains of science.</p></div>
+      <div class="card"><h3>Coding Nights</h3><p>A space for coders and non‑coders to talk and build algorithmic thinking.</p></div>
+      <div class="card"><h3>Coder's Den</h3><p>Competitive coding — maths, algorithms and puzzle‑solving.</p></div>
+      <div class="card"><h3>Tex‑Nologia</h3><p>Flex your type‑setting skills using LaTeX.</p></div>
+    </div>
+  </section>
+
+  <!-- 8. EVENTS PLANNED - GAMING -->
+  <section class="section" data-theme="gaming">
+    <div class="section-inner">
+      <div class="eyebrow">cat roadmap/gaming_2026.md<span class="cursor"></span></div>
+      <h2>This Year — <span class="accent">Gaming</span></h2>
+      <p class="subhead">Powered by our gaming community, <strong style="color:var(--cyan);">CLUTCH</strong> — tournaments and chill sessions across genres, all year.</p>
+      <div class="tag-list">
+        <span class="tag">BGMI</span><span class="tag">CODM</span><span class="tag">Valorant</span>
+        <span class="tag">Minecraft</span><span class="tag">Clash Royale</span><span class="tag">Terraria</span>
+        <span class="tag">Pokémon Champions</span><span class="tag">Counter‑Strike</span>
+        <span class="tag">Marvel Rivals</span><span class="tag">Marvel Tokon</span>
+        <span class="tag">Among Us</span><span class="tag">Tekken</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8b. IIeSM RESULTS -->
+  <section class="section" data-theme="gaming">
+    <div class="section-inner">
+      <div class="eyebrow">cat results/iiesm_2026.log<span class="cursor"></span></div>
+      <h2>Inter IISER eSports Meet <span class="accent">(IIeSM)</span></h2>
+      <p class="subhead">CLUTCH showed up and showed out — here's where we won.</p>
+
+      <div class="card" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+        <span class="badge cyan">Clash Royale</span>
+        <span style="color:var(--text); font-size:13.5px;">Siddhesh Pingale <span style="color:var(--text-dim);">got us the W</span></span>
+      </div>
+
+      <div class="card">
+        <div class="badge cyan" style="margin-bottom:12px;">Valorant</div>
+        <ul class="results-list">
+          <li><span class="who">Shreedhar Reddy</span><span class="tag-id">Conc HClO4</span></li>
+          <li><span class="who">Ajay J Malik</span><span class="tag-id">Sabreclaws09</span></li>
+          <li><span class="who">Anirban Roy Choudhury</span><span class="tag-id">Zeus</span></li>
+          <li><span class="who">Monbikash Gayan</span><span class="tag-id">Brawktagon</span></li>
+          <li><span class="who">Tanishq Ved Milani</span><span class="tag-id">Clovocaine</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="badge cyan" style="margin-bottom:12px;">CODM</div>
+        <ul class="results-list">
+          <li><span class="who">Nitin Dhamija</span><span class="tag-id">Mr.NitinKing</span></li>
+          <li><span class="who">Anurag Singh</span><span class="tag-id">Anurag@0405</span></li>
+          <li><span class="who">Aaditya S</span><span class="tag-id">x_AADITYA_x</span></li>
+          <li><span class="who">Abhimanyu Mishra</span><span class="tag-id">-Mirage.</span></li>
+          <li><span class="who">Anbu S</span><span class="tag-id">AgentAlphalite</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. UPCOMING EVENTS -->
+  <section class="section" data-theme="tech">
+    <div class="section-inner">
+      <div class="eyebrow">at --list upcoming/<span class="cursor"></span></div>
+      <h2>Upcoming <span class="accent">Events</span></h2>
+      <p class="subhead">Mark these — first two are right around the corner.</p>
+      <div class="card" style="border-color:var(--green-dim);">
+        <div class="badge green" style="margin-bottom:12px;">Tech · 29 Aug, Saturday</div>
+        <h3 style="font-size:16px;">Plugged_In — Session 1</h3>
+        <p style="margin-top:6px;">Exploring Coding in Science &amp; a Python Intro.</p>
+      </div>
+      <div class="card" style="border-color:var(--cyan-dim);">
+        <div class="badge cyan" style="margin-bottom:12px;">Gaming · September 1st Weekend</div>
+        <h3 style="font-size:16px;">Minecraft Event</h3>
+        <p style="margin-top:6px;">By CLUTCH.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. MEME: WORDS YOU CAN SAY FREELY -->
+  <section class="section" data-theme="tech">
+    <div class="section-inner">
+      <div class="eyebrow">man -k perks_of_iplug<span class="cursor"></span></div>
+      <h2>Perks of Showing Up to <span class="accent">IPLUG Events</span></h2>
+      <p class="subhead">You get to use these words. Freely. In public. Nobody will look at you weird — they'll just nod and open a terminal.</p>
+
+      <div class="card">
+        <div class="term-card"><div class="term-cmd">strip binary</div><p class="term-def">Removes the symbol table &amp; debug info from an executable.</p><div class="term-note">// not that kind of strip</div></div>
+        <div class="term-card"><div class="term-cmd">finger user@host</div><p class="term-def">Ancient protocol for looking up who's logged in and their info.</p><div class="term-note">// yes, this was a real command</div></div>
+        <div class="term-card"><div class="term-cmd">touch file.txt</div><p class="term-def">Creates an empty file, or just updates its timestamp.</p><div class="term-note">// very PG, calm down</div></div>
+        <div class="term-card"><div class="term-cmd">kill -9 &lt;child&gt;</div><p class="term-def">Force-terminates a runaway child process.</p><div class="term-note">// process, not progeny</div></div>
+        <div class="term-card"><div class="term-cmd">mount /dev/sdb1</div><p class="term-def">Attaches a filesystem so the OS can actually use it.</p><div class="term-note">// storage devices only</div></div>
+        <div class="term-card"><div class="term-cmd">penetration test</div><p class="term-def">Authorized probing of a system for security holes.</p><div class="term-note">// ask the sysadmin nicely first</div></div>
+        <div class="term-card"><div class="term-cmd">naked pointer</div><p class="term-def">A raw pointer with no smart wrapper managing its lifetime.</p><div class="term-note">// bring your own memory management</div></div>
+        <div class="term-card"><div class="term-cmd">fork()</div><p class="term-def">Spawns a child process that's a copy of the parent.</p><div class="term-note">// asexual reproduction, computer edition</div></div>
+        <div class="term-card"><div class="term-cmd">daemon --spawn</div><p class="term-def">A background process that runs without a controlling terminal.</p><div class="term-note">// not that kind of demon</div></div>
+        <div class="term-card"><div class="term-cmd">flush</div><p class="term-def">Forces buffered data to be written out immediately.</p><div class="term-note">// output, nothing else</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. MERCH COMPETITION -->
+  <section class="section center" data-theme="tech">
+    <div class="section-inner">
+      <div class="eyebrow" style="justify-content:center;">./run merch_design_competition.sh<span class="cursor"></span></div>
+      <h2>Merch Design <span class="accent">Competition</span></h2>
+      <p class="subhead">Got an eye for design? Submit your merch concept for a shot at seeing it on IPLUG apparel.</p>
+      <div class="deadline-box" style="display:inline-block; text-align:left;" data-deadline="2026-09-13T23:59:59+05:30">
+        <div style="font-family:var(--font-display); font-size:12px; color:var(--text-dim);">Deadline</div>
+        <div class="deadline-datetime">13 Sep 2026 · 11:59:59 PM IST</div>
+        <div class="deadline-timer" id="deadlineTimerMobile">--d --h --m --s</div>
+      </div>
+      <div style="margin-top:22px; display:flex; justify-content:center;">
+        <div class="qr-item">
+          <div class="qr-ph"><img src="./assets/merch.png" alt="merch"></div>
+          <div class="label">Scan Here for Free Merch!</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13. CLOSING / QR -->
+  <section class="section center" data-theme="tech">
+    <div class="section-inner">
+      <img src="assets/logo.svg" alt="IPLUG logo" style="width:56px;height:56px;margin:0 auto 16px;">
+      <div class="eyebrow" style="justify-content:center;">./connect.sh --follow<span class="cursor"></span></div>
+      <h2 style="margin-bottom:8px;">Stay in the loop.</h2>
+      <p class="subhead">Scan to follow along — updates, event drops, and community chatter.</p>
+      <div class="qr-grid">
+        <div class="qr-item"><div class="qr-ph"><img src="./assets/ig.png" alt="Instagram"></div><div class="label">Instagram</div></div>
+        <div class="qr-item"><div class="qr-ph"><img src="./assets/wp.png" alt="Whatsapp"></div><div class="label">Whatsapp</div></div>
+        <div class="qr-item"><div class="qr-ph"><img src="./assets/dc.png" alt="Discord"></div><div class="label">Discord</div></div>
+        <div class="qr-item"><div class="qr-ph"><img src="./assets/gaming-cult.png" alt="Gaming Cult"></div><div class="label">Gaming Cult</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="closing-note">See you at orientation — welcome to IPLUG. 👾</footer>
+
+</main>
+
+<script src="mobile.js"></script>
+</body>
+</html>
