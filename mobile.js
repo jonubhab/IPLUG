@@ -1,20 +1,21 @@
 // ============================================================
 // IPLUG Orientation Deck — mobile.js
-// Same visual flourishes as the desktop deck (circuit background,
-// typed title, live countdown) but no slide-nav / IntersectionObserver
-// logic, since the mobile page is one continuous scroll, not paged slides.
+// Horizontal slide deck: one .msection per screen, swipeable left/right.
+// Bottom bar mirrors that with a horizontal dot rail + prev/next arrows.
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', () => {
   buildCircuitBackground();
   typeTitle();
   initDeadlineTimer();
+  initHorizontalNav();
 });
 
+/* ---------------- circuit background ---------------- */
 function buildCircuitBackground() {
   const svg = document.getElementById('circuit-bg');
   if (!svg) return;
-  const W = 800, H = 1400;
+  const W = 900, H = 1600;
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
 
@@ -41,6 +42,7 @@ function buildCircuitBackground() {
   svg.innerHTML = svgContent;
 }
 
+/* ---------------- terminal-style title typing ---------------- */
 function typeTitle() {
   const el = document.getElementById('typed-title');
   if (!el) return;
@@ -54,6 +56,7 @@ function typeTitle() {
   }, 160);
 }
 
+/* ---------------- merch deadline: live countdown ---------------- */
 function initDeadlineTimer() {
   const box = document.querySelector('.deadline-box[data-deadline]');
   const el = document.getElementById('deadlineTimerMobile');
@@ -81,4 +84,68 @@ function initDeadlineTimer() {
     render();
     if (deadline - Date.now() <= 0) clearInterval(timer);
   }, 1000);
+}
+
+/* ---------------- horizontal slide navigation ---------------- */
+function initHorizontalNav() {
+  const deck = document.getElementById('mdeck');
+  const slides = Array.from(document.querySelectorAll('.msection'));
+  const dotTrack = document.getElementById('dot-track');
+  const prevBtn = document.getElementById('nav-prev');
+  const nextBtn = document.getElementById('nav-next');
+  if (!deck || !slides.length || !dotTrack) return;
+
+  const total = slides.length;
+  let current = 0;
+
+  const dots = slides.map((slide, idx) => {
+    const dot = document.createElement('button');
+    dot.className = 'dot';
+    dot.setAttribute('aria-label', `Go to slide ${idx + 1}`);
+    if (slide.dataset.theme === 'gaming') dot.classList.add('theme-gaming');
+    dot.addEventListener('click', () => goTo(idx));
+    dotTrack.appendChild(dot);
+    return dot;
+  });
+
+  function goTo(idx) {
+    idx = Math.max(0, Math.min(total - 1, idx));
+    slides[idx].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+  }
+
+  function setActive(idx) {
+    current = idx;
+    dots.forEach((d, i) => d.classList.toggle('current', i === idx));
+    const activeDot = dots[idx];
+    if (activeDot && activeDot.scrollIntoView) {
+      activeDot.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+    if (prevBtn) prevBtn.disabled = idx === 0;
+    if (nextBtn) nextBtn.disabled = idx === total - 1;
+  }
+
+  if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
+  if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+        const idx = slides.indexOf(entry.target);
+        if (idx !== -1) setActive(idx);
+      }
+    });
+  }, { root: deck, threshold: [0.6] });
+  slides.forEach((s) => observer.observe(s));
+
+  window.addEventListener('keydown', (e) => {
+    if (['ArrowRight', ' '].includes(e.key)) {
+      e.preventDefault();
+      goTo(current + 1);
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      goTo(current - 1);
+    }
+  });
+
+  requestAnimationFrame(() => setActive(0));
 }

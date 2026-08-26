@@ -19,29 +19,31 @@
 
 <svg id="circuit-bg"></svg>
 
-<main>
+<main id="mdeck">
 
   <!-- 1. TITLE -->
-  <section class="section center" data-theme="tech">
-    <img src="./assets/logo.svg" alt="IPLUG logo" class="logo-sm">
-    <div class="eyebrow" style="justify-content:center;">windows@not_linux<span style="color:var(--text-faint)">:~$</span> ssh iplug@iiserpune.ac.in<span class="cursor"></span></div>
-    <h1 id="typed-title" style="font-size:52px; color:var(--text);"></h1>
-    <p style="font-family:var(--font-display); font-size:13px; color:var(--text-dim); margin:12px 0 20px;">
-      IISER Pune Linux Users Group
-    </p>
-    <p style="color:var(--text-dim); font-size:14px; line-height:1.6; margin:0;">
-      Building a home for innovators, coders and gamers — a community around
-      technical curiosity&nbsp;👾, competitive play&nbsp;🎮 and shared passion&nbsp;👨🏻‍💻
-    </p>
-    <div class="hero-badges">
-      <span class="badge green">Tech</span>
-      <span class="badge cyan">Gaming</span>
-      <span class="badge">Orientation · 2026</span>
+  <section class="msection center" data-theme="tech">
+    <div class="section-inner">
+      <img src="./assets/logo.svg" alt="IPLUG logo" class="logo-sm">
+      <div class="eyebrow" style="justify-content:center;">windows@not_linux<span style="color:var(--text-faint)">:~$</span> ssh iplug@iiserpune.ac.in<span class="cursor"></span></div>
+      <h1 id="typed-title" style="font-size:50px; color:var(--text);"></h1>
+      <p style="font-family:var(--font-display); font-size:13px; color:var(--text-dim); margin:12px 0 20px;">
+        IISER Pune Linux Users Group
+      </p>
+      <p style="color:var(--text-dim); font-size:14px; line-height:1.6; margin:0;">
+        Building a home for innovators, coders and gamers — a community around
+        technical curiosity&nbsp;👾, competitive play&nbsp;🎮 and shared passion&nbsp;👨🏻‍💻
+      </p>
+      <div class="hero-badges">
+        <span class="badge green">Tech</span>
+        <span class="badge cyan">Gaming</span>
+        <span class="badge">Orientation · 2026</span>
+      </div>
     </div>
   </section>
 
   <!-- 2. WHAT IS IPLUG -->
-  <section class="section" data-theme="tech">
+  <section class="msection" data-theme="tech">
     <div class="section-inner">
       <div class="eyebrow">cat about_iplug.md<span class="cursor"></span></div>
       <h2>Aren't you using <span class="accent">Linux yet? </span></h2>
@@ -58,7 +60,7 @@
   </section>
 
   <!-- 3. FACULTY COORDINATOR -->
-  <section class="section" data-theme="tech">
+  <section class="msection" data-theme="tech">
     <div class="section-inner">
       <div class="eyebrow">whoami --faculty<span class="cursor"></span></div>
       <h2>Faculty <span class="accent">Coordinator</span></h2>
@@ -74,7 +76,7 @@
   </section>
 
   <!-- 4. PREVIOUS COORDINATORS -->
-  <section class="section" data-theme="tech">
+  <section class="msection" data-theme="tech">
     <div class="section-inner">
       <div class="eyebrow">git log --authors=previous-coords<span class="cursor"></span></div>
       <h2>Previous <span class="accent">Coordinators</span></h2>
@@ -100,7 +102,7 @@
   </section>
 
   <!-- 5. CURRENT COORDINATORS -->
-  <section class="section" data-theme="tech">
+  <section class="msection" data-theme="tech">
     <div class="section-inner">
       <div class="eyebrow">git log --authors=current-coords --since=now<span class="cursor"></span></div>
       <h2>Current <span class="accent">Coordinators</span></h2>
@@ -126,7 +128,7 @@
   </section>
 
   <!-- 5b. TECH VS GAMING SPLIT -->
-  <section class="section" data-theme="tech">
+  <section class="msection" data-theme="tech">
     <div class="section-inner">
       <div class="eyebrow">split iplug.txt<span class="cursor"></span></div>
       <h2>Two Cores. <span class="accent">One Community. </span></h2>
@@ -147,7 +149,7 @@
   </section>
 
   <!-- 6. EVENTS CONDUCTED LAST YEAR -->
-  <section class="section" data-theme="tech">
+  <section class="msection" data-theme="tech">
     <div class="section-inner">
       <div class="eyebrow">ls -l events/last_year/<span class="cursor"></span></div>
       <h2>Events Conducted <span class="accent">Last Year</span></h2>
@@ -165,7 +167,7 @@
   </section>
 
   <!-- 7. EVENTS PLANNED - TECH -->
-  <section class="section" data-theme="tech">
+  <section class="msection" data-theme="tech">
     <div class="section-inner">
       <div class="eyebrow">cat roadmap/tech_2026.md<span class="cursor"></span></div>
       <h2>This Year — <span class="accent">Tech</span></h2>
@@ -180,7 +182,7 @@
   </section>
 
   <!-- 8. EVENTS PLANNED - GAMING -->
-  <section class="section" data-theme="gaming">
+  <section class="msection" data-theme="gaming">
     <div class="section-inner">
       <div class="eyebrow">cat roadmap/gaming_2026.md<span class="cursor"></span></div>
       <h2>This Year — <span class="accent">Gaming</span></h2>
@@ -196,7 +198,7 @@
   </section>
 
   <!-- 8b. IIeSM RESULTS -->
-  <section class="section" data-theme="gaming">
+  <section class="msection" data-theme="gaming">
     <div class="section-inner">
       <div class="eyebrow">cat results/iiesm_2026.log<span class="cursor"></span></div>
       <h2>Inter IISER eSports Meet <span class="accent">(IIeSM)</span></h2>
@@ -204,7 +206,7 @@
 
       <div class="card" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
         <span class="badge cyan">Clash Royale</span>
-        <span style="color:var(--text); font-size:13.5px;">Siddhesh Pingale <span style="color:var(--text-dim);">got us the W</span></span>
+        <span style="color:var(--text); font-size:13px;">Siddhesh Pingale <span style="color:var(--text-dim);">got us the W</span></span>
       </div>
 
       <div class="card">
@@ -231,26 +233,26 @@
   </section>
 
   <!-- 10. UPCOMING EVENTS -->
-  <section class="section" data-theme="tech">
+  <section class="msection" data-theme="tech">
     <div class="section-inner">
       <div class="eyebrow">at --list upcoming/<span class="cursor"></span></div>
       <h2>Upcoming <span class="accent">Events</span></h2>
       <p class="subhead">Mark these — first two are right around the corner.</p>
       <div class="card" style="border-color:var(--green-dim);">
         <div class="badge green" style="margin-bottom:12px;">Tech · 29 Aug, Saturday</div>
-        <h3 style="font-size:16px;">Plugged_In — Session 1</h3>
+        <h3 style="font-size:15.5px;">Plugged_In — Session 1</h3>
         <p style="margin-top:6px;">Exploring Coding in Science &amp; a Python Intro.</p>
       </div>
       <div class="card" style="border-color:var(--cyan-dim);">
         <div class="badge cyan" style="margin-bottom:12px;">Gaming · September 1st Weekend</div>
-        <h3 style="font-size:16px;">Minecraft Event</h3>
+        <h3 style="font-size:15.5px;">Minecraft Event</h3>
         <p style="margin-top:6px;">By CLUTCH.</p>
       </div>
     </div>
   </section>
 
   <!-- 11. MEME: WORDS YOU CAN SAY FREELY -->
-  <section class="section" data-theme="tech">
+  <section class="msection" data-theme="tech">
     <div class="section-inner">
       <div class="eyebrow">man -k perks_of_iplug<span class="cursor"></span></div>
       <h2>Perks of Showing Up to <span class="accent">IPLUG Events</span></h2>
@@ -272,7 +274,7 @@
   </section>
 
   <!-- 12. MERCH COMPETITION -->
-  <section class="section center" data-theme="tech">
+  <section class="msection center" data-theme="tech">
     <div class="section-inner">
       <div class="eyebrow" style="justify-content:center;">./run merch_design_competition.sh<span class="cursor"></span></div>
       <h2>Merch Design <span class="accent">Competition</span></h2>
@@ -282,7 +284,7 @@
         <div class="deadline-datetime">13 Sep 2026 · 11:59:59 PM IST</div>
         <div class="deadline-timer" id="deadlineTimerMobile">--d --h --m --s</div>
       </div>
-      <div style="margin-top:22px; display:flex; justify-content:center;">
+      <div style="margin-top:20px; display:flex; justify-content:center;">
         <div class="qr-item">
           <div class="qr-ph"><img src="./assets/merch.png" alt="merch"></div>
           <div class="label">Scan Here for Free Merch!</div>
@@ -292,9 +294,9 @@
   </section>
 
   <!-- 13. CLOSING / QR -->
-  <section class="section center" data-theme="tech">
+  <section class="msection center" data-theme="tech">
     <div class="section-inner">
-      <img src="assets/logo.svg" alt="IPLUG logo" style="width:56px;height:56px;margin:0 auto 16px;">
+      <img src="assets/logo.svg" alt="IPLUG logo" style="width:52px;height:52px;margin:0 auto 14px;">
       <div class="eyebrow" style="justify-content:center;">./connect.sh --follow<span class="cursor"></span></div>
       <h2 style="margin-bottom:8px;">Stay in the loop.</h2>
       <p class="subhead">Scan to follow along — updates, event drops, and community chatter.</p>
@@ -304,12 +306,17 @@
         <div class="qr-item"><div class="qr-ph"><img src="./assets/dc.png" alt="Discord"></div><div class="label">Discord</div></div>
         <div class="qr-item"><div class="qr-ph"><img src="./assets/gaming-cult.png" alt="Gaming Cult"></div><div class="label">Gaming Cult</div></div>
       </div>
+      <p class="closing-note">See you at orientation — welcome to IPLUG. 👾</p>
     </div>
   </section>
 
-  <footer class="closing-note">See you at orientation — welcome to IPLUG. 👾</footer>
-
 </main>
+
+<nav id="mobile-nav">
+  <button class="nav-arrow" id="nav-prev" aria-label="Previous slide">‹</button>
+  <div id="dot-track"></div>
+  <button class="nav-arrow" id="nav-next" aria-label="Next slide">›</button>
+</nav>
 
 <script src="mobile.js"></script>
 </body>
